@@ -115,7 +115,7 @@ function App() {
 
       {/* Footer */}
       <footer className="bg-blue-800 text-white py-6 text-center">
-        <p>© {new Date().getFullYear()} Tuitupou's Tech & Accounting Solutions. All Rights Reserved.</p>
+        <p>© {new Date().getFullYear()} Tuitupou Tech & Accounting Solutions. All Rights Reserved.</p>
       </footer>
     </div>
   );
