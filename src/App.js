@@ -14,10 +14,10 @@ function App() {
 
     emailjs
       .sendForm(
-        "YOUR_SERVICE_ID", // from EmailJS
-        "YOUR_TEMPLATE_ID", // from EmailJS
+        process.env.REACT_APP_EMAILJS_SERVICE_ID,
+        process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
         e.target,
-        "YOUR_PUBLIC_KEY"   // from EmailJS
+        process.env.REACT_APP_EMAILJS_PUBLIC_KEY
       )
       .then(
         (result) => {
