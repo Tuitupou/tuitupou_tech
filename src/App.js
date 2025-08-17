@@ -1,57 +1,59 @@
 import React, { useState, useEffect } from 'react';
+import emailjs from 'emailjs-com'; // Add this import
 
 const TuitupouLanding = () => {
   // Custom SVG Icons
   const RobotIcon = ({ className, size = 24 }) => (
     <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2C12.6 2 13 2.4 13 3V4H16C17.1 4 18 4.9 18 6V8C20.2 8 22 9.8 22 12V18C22 20.2 20.2 22 18 22H6C3.8 22 2 20.2 2 18V12C2 9.8 3.8 8 6 8V6C6 4.9 6.9 4 8 4H11V3C11 2.4 11.4 2 12 2M16 12C16.6 12 17 12.4 17 13S16.6 14 16 14 15 13.6 15 13 15.4 12 16 12M8 12C8.6 12 9 12.4 9 13S8.6 14 8 14 7 13.6 7 13 7.4 12 8 12M10 17H14V18H10V17Z"/>
+      <path d="M12 2C12.6 2 13 2.4 13 3V4H16C17.1 4 18 4.9 18 6V8C20.2 8 22 9.8 22 12V18C22 20.2 20.2 22 18 22H6C3.8 22 2 20.2 2 18V12C2 9.8 3.8 8 6 8V6C6 4.9 6.9 4 8 4H11V3C11 2.4 11.4 2 12 2M16 12C16.6 12 17 12.4 17 13S16.6 14 16 14 15 13.6 15 13 15.4 12 16 12M8 12C8.6 12 9 12.4 9 13S8.6 14 8 14 7 13.6 7 13 7.4 12 8 12M10 17H14V18H10V17Z" />
     </svg>
   );
 
   const LaptopIcon = ({ className, size = 24 }) => (
     <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M4 6H20C21.1 6 22 6.9 22 8V16C22 17.1 21.1 18 20 18H17L19 21V22H5V21L7 18H4C2.9 18 2 17.1 2 16V8C2 6.9 2.9 6 4 6M4 8V16H20V8H4Z"/>
+      <path d="M4 6H20C21.1 6 22 6.9 22 8V16C22 17.1 21.1 18 20 18H17L19 21V22H5V21L7 18H4C2.9 18 2 17.1 2 16V8C2 6.9 2.9 6 4 6M4 8V16H20V8H4Z" />
     </svg>
   );
 
   const CalculatorIcon = ({ className, size = 24 }) => (
     <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M7 2H17C18.1 2 19 2.9 19 4V20C19 21.1 18.1 22 17 22H7C5.9 22 5 21.1 5 20V4C5 2.9 5.9 2 7 2M7 4V8H17V4H7M7 10V12H9V10H7M11 10V12H13V10H11M15 10V12H17V10H15M7 14V16H9V14H7M11 14V16H13V14H11M15 14V20H17V14H15M7 18V20H9V18H7M11 18V20H13V18H11Z"/>
+      <path d="M7 2H17C18.1 2 19 2.9 19 4V20C19 21.1 18.1 22 17 22H7C5.9 22 5 21.1 5 20V4C5 2.9 5.9 2 7 2M7 4V8H17V4H7M7 10V12H9V10H7M11 10V12H13V10H11M15 10V12H17V10H15M7 14V16H9V14H7M11 14V16H13V14H11M15 14V20H17V14H15M7 18V20H9V18H7M11 18V20H13V18H11Z" />
     </svg>
   );
 
   const CogIcon = ({ className, size = 24 }) => (
     <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 15.5A3.5 3.5 0 0 1 8.5 12A3.5 3.5 0 0 1 12 8.5A3.5 3.5 0 0 1 15.5 12A3.5 3.5 0 0 1 12 15.5M19.43 12.98C19.47 12.66 19.5 12.34 19.5 12S19.47 11.34 19.43 11.02L21.54 9.37C21.73 9.22 21.78 8.95 21.66 8.73L19.66 5.27C19.54 5.05 19.27 4.96 19.05 5.05L16.56 6.05C16.04 5.65 15.48 5.32 14.87 5.07L14.5 2.42C14.46 2.18 14.25 2 14 2H10C9.75 2 9.54 2.18 9.5 2.42L9.13 5.07C8.52 5.32 7.96 5.66 7.44 6.05L4.95 5.05C4.73 4.96 4.46 5.05 4.34 5.27L2.34 8.73C2.21 8.95 2.27 9.22 2.46 9.37L4.57 11.02C4.53 11.34 4.5 11.67 4.5 12S4.53 12.66 4.57 12.98L2.46 14.63C2.27 14.78 2.21 15.05 2.34 15.27L4.34 18.73C4.46 18.95 4.73 19.03 4.95 18.95L7.44 17.94C7.96 18.34 8.52 18.68 9.13 18.93L9.5 21.58C9.54 21.82 9.75 22 10 22H14C14.25 22 14.46 21.82 14.5 21.58L14.87 18.93C15.48 18.68 16.04 18.34 16.56 17.94L19.05 18.95C19.27 19.03 19.54 18.95 19.66 18.73L21.66 15.27C21.78 15.05 21.73 14.78 21.54 14.63L19.43 12.98Z"/>
+      <path d="M12 15.5A3.5 3.5 0 0 1 8.5 12A3.5 3.5 0 0 1 12 8.5A3.5 3.5 0 0 1 15.5 12A3.5 3.5 0 0 1 12 15.5M19.43 12.98C19.47 12.66 19.5 12.34 19.5 12S19.47 11.34 19.43 11.02L21.54 9.37C21.73 9.22 21.78 8.95 21.66 8.73L19.66 5.27C19.54 5.05 19.27 4.96 19.05 5.05L16.56 6.05C16.04 5.65 15.48 5.32 14.87 5.07L14.5 2.42C14.46 2.18 14.25 2 14 2H10C9.75 2 9.54 2.18 9.5 2.42L9.13 5.07C8.52 5.32 7.96 5.66 7.44 6.05L4.95 5.05C4.73 4.96 4.46 5.05 4.34 5.27L2.34 8.73C2.21 8.95 2.27 9.22 2.46 9.37L4.57 11.02C4.53 11.34 4.5 11.67 4.5 12S4.53 12.66 4.57 12.98L2.46 14.63C2.27 14.78 2.21 15.05 2.34 15.27L4.34 18.73C4.46 18.95 4.73 19.03 4.95 18.95L7.44 17.94C7.96 18.34 8.52 18.68 9.13 18.93L9.5 21.58C9.54 21.82 9.75 22 10 22H14C14.25 22 14.46 21.82 14.5 21.58L14.87 18.93C15.48 18.68 16.04 18.34 16.56 17.94L19.05 18.95C19.27 19.03 19.54 18.95 19.66 18.73L21.66 15.27C21.78 15.05 21.73 14.78 21.54 14.63L19.43 12.98Z" />
     </svg>
   );
 
   const ChartIcon = ({ className, size = 24 }) => (
     <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M22 21H2V3H4V19H6V17H10V19H12V16H16V19H18V17H22V21M16 15H12V9H16V15M10 14H6V12H10V14Z"/>
+      <path d="M22 21H2V3H4V19H6V17H10V19H12V16H16V19H18V17H22V21M16 15H12V9H16V15M10 14H6V12H10V14Z" />
     </svg>
   );
 
   const ShieldIcon = ({ className, size = 24 }) => (
     <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1M10 17L6 13L7.41 11.59L10 14.17L16.59 7.58L18 9L10 17Z"/>
+      <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1M10 17L6 13L7.41 11.59L10 14.17L16.59 7.58L18 9L10 17Z" />
     </svg>
   );
 
   const MenuIcon = ({ className, size = 24 }) => (
     <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M3 6H21V8H3V6M3 11H21V13H3V11M3 16H21V18H3V16Z"/>
+      <path d="M3 6H21V8H3V6M3 11H21V13H3V11M3 16H21V18H3V16Z" />
     </svg>
   );
 
   const CloseIcon = ({ className, size = 24 }) => (
     <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"/>
+      <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" />
     </svg>
   );
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false); // Add loading state
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -64,6 +66,30 @@ const TuitupouLanding = () => {
     setIsMenuOpen(false);
   };
 
+  // Add the sendEmail function HERE - inside your component
+  const sendEmail = (e) => {
+    e.preventDefault();
+    setIsSubmitting(true); // Show loading state
+
+    emailjs.sendForm(
+      process.env.REACT_APP_EMAILJS_SERVICE_ID,
+      process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
+      e.target,
+      process.env.REACT_APP_EMAILJS_PUBLIC_KEY
+    )
+      .then((result) => {
+        alert("Message sent successfully!");
+        e.target.reset(); // Reset form after successful submission
+      })
+      .catch((error) => {
+        alert("Failed to send message. Please try again.");
+        console.error('EmailJS error:', error);
+      })
+      .finally(() => {
+        setIsSubmitting(false); // Hide loading state
+      });
+  };
+
   return (
     <div className="bg-gray-900 text-gray-100 min-h-screen">
       {/* Animated Background */}
@@ -73,7 +99,7 @@ const TuitupouLanding = () => {
         <div className="absolute inset-0 opacity-20">
           <div className="grid grid-cols-8 gap-4 h-full animate-pulse">
             {[...Array(64)].map((_, i) => (
-              <div key={i} className="bg-cyan-500 opacity-10 rounded animate-pulse" style={{animationDelay: `${i * 0.1}s`}}></div>
+              <div key={i} className="bg-cyan-500 opacity-10 rounded animate-pulse" style={{ animationDelay: `${i * 0.1}s` }}></div>
             ))}
           </div>
         </div>
@@ -175,9 +201,9 @@ const TuitupouLanding = () => {
             </h1>
 
             <p className="text-xl md:text-2xl text-gray-400 max-w-4xl mx-auto leading-relaxed">
-              The world's first consultancy combining <span className="text-cyan-400 font-semibold">full-stack development</span>, 
-              <span className="text-purple-400 font-semibold"> QA automation</span>, 
-              <span className="text-pink-400 font-semibold"> accounting expertise</span>, and 
+              The world's first consultancy combining <span className="text-cyan-400 font-semibold">full-stack development</span>,
+              <span className="text-purple-400 font-semibold"> QA automation</span>,
+              <span className="text-pink-400 font-semibold"> accounting expertise</span>, and
               <span className="text-cyan-400 font-semibold"> AI engineering</span> under one roof.
             </p>
 
@@ -320,7 +346,7 @@ const TuitupouLanding = () => {
                   </div>
                 </div>
                 <p className="text-gray-300 text-lg mb-8 leading-relaxed">
-                  The first of many AI agents designed to revolutionize business operations. This intelligent system will 
+                  The first of many AI agents designed to revolutionize business operations. This intelligent system will
                   automatically identify, engage, and qualify potential leads while maintaining human-like interactions.
                 </p>
                 <div className="space-y-4">
@@ -382,12 +408,12 @@ const TuitupouLanding = () => {
               <div className="space-y-6">
                 <h3 className="text-3xl font-bold text-white mb-6">Why This Matters</h3>
                 <p className="text-gray-300 text-lg leading-relaxed">
-                  Traditional consultancies force businesses to work with separate providers for technology, 
-                  testing, accounting, and AI solutions. This creates communication gaps, integration 
+                  Traditional consultancies force businesses to work with separate providers for technology,
+                  testing, accounting, and AI solutions. This creates communication gaps, integration
                   nightmares, and missed opportunities.
                 </p>
                 <p className="text-gray-300 text-lg leading-relaxed">
-                  At Tuitupou Solutions, we're pioneering a new approach where these disciplines work 
+                  At Tuitupou Solutions, we're pioneering a new approach where these disciplines work
                   seamlessly together, creating solutions that are more than the sum of their parts.
                 </p>
                 <div className="grid grid-cols-2 gap-6 pt-6">
@@ -424,7 +450,7 @@ const TuitupouLanding = () => {
         </div>
       </section>
 
-      {/* Contact Section */}
+      {/* Contact Section - Modified form with proper name attributes and onSubmit */}
       <section id="contact" className="py-20 bg-gray-800/30">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -503,7 +529,7 @@ const TuitupouLanding = () => {
               </div>
             </div>
             <p className="text-gray-400 text-center md:text-right">
-              © {new Date().getFullYear()} Tuitupou Tech & Accounting Solutions. 
+              © {new Date().getFullYear()} Tuitupou Tech & Accounting Solutions.
               <br className="md:hidden" />
               <span className="text-cyan-400 ml-1">Breaking boundaries, building futures.</span>
             </p>
